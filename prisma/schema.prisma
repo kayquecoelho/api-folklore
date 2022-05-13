@@ -9,3 +9,37 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Artist {
+  id   Int    @unique @default(autoincrement())
+  name String @unique
+
+  songs Song[]
+
+  @@map("artists")
+}
+
+model Song {
+  id          Int      @unique @default(autoincrement())
+  name        String
+  youtubeLink String   @unique
+  artist      Artist   @relation(fields: [artistId], references: [id])
+  artistId    Int
+  createdAt   DateTime @default(now())
+
+  lyrics Lyric[]
+
+  @@map("songs")
+}
+
+model Lyric {
+  id      Int      @unique @default(autoincrement())
+  song    Song     @relation(fields: [songId], references: [id])
+  songId  Int
+  text    String
+  startTime Int
+  endTime Int?
+  part    Int
+
+  @@map("lyrics")
+}
