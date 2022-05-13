@@ -7,15 +7,21 @@
   "scripts": {
     "dev": "nodemon src/server.ts"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^3.14.0",
     "cors": "^2.8.5",
+    "dayjs": "^1.11.2",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
-    "joi": "^17.6.0"
+    "joi": "^17.6.0",
+    "lrc-kit": "^1.1.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
