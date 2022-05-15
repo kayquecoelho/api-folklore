@@ -7,8 +7,8 @@ async function processLyrics(lrcLyric: string, songId: number) {
     text: line.content,
     songId,
     part: index + 1,
-    startTime: line.timestamp * 1000,
-    endTime: timedLyrics[index + 1]?.timestamp * 1000 || null,
+    startTime: line.timestamp,
+    endTime: timedLyrics[index + 1]?.timestamp || null,
   }));
 
   await lyricRepository.createMany(arrangedLyrics);
