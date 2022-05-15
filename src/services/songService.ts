@@ -28,6 +28,16 @@ async function create(songData: SongDataSchema) {
   await lyricService.processLyrics(songData.lrcLyric, createdSong.id);
 }
 
+async function getById(songId: number) {
+  const song = await songRepository.getById(songId);
+
+  if (!song) throw errors.notFoundError("Song does not exist");
+  
+  const mapped = song.lyrics.map(lyric => ({...lyric, text: lyric.text.split(" ")}));
+  return {...song, lyrics: mapped }
+}
+
 export default {
   create,
+  getById
 };

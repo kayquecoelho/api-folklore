@@ -18,7 +18,25 @@ async function createOne(songData: CreateSongData) {
   return createdSong;
 }
 
+async function getById(songId: number) {
+  const song = await prisma.song.findUnique({
+    where: {
+      id: songId
+    },
+    include: {
+      artist: true,
+      lyrics: {
+        orderBy: {
+          part: "asc"
+        }
+      }
+    }
+  });
+  return song;
+}
+
 export default {
   getByLink,
-  createOne
+  createOne,
+  getById
 };

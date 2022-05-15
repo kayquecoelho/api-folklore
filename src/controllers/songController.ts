@@ -6,6 +6,17 @@ async function create(req: Request, res: Response) {
   res.sendStatus(201);
 }
 
+async function getById(req: Request, res: Response) {
+  const songId = +req.params.songId;
+
+  if (isNaN(songId)) return res.sendStatus(400);
+
+  const song = await songService.getById(songId);
+  
+  res.send(song);
+}
+
 export default { 
-  create
+  create,
+  getById
 }
