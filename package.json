@@ -8,13 +8,14 @@
     "dev": "nodemon src/server.ts"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "npx ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^3.14.0",
+    "axios": "^0.27.2",
     "cors": "^2.8.5",
     "dayjs": "^1.11.2",
     "dotenv": "^16.0.1",

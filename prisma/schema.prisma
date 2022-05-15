@@ -37,8 +37,8 @@ model Lyric {
   song    Song     @relation(fields: [songId], references: [id])
   songId  Int
   text    String
-  startTime Int
-  endTime Int?
+  startTime Float
+  endTime Float?
   part    Int
 
   @@map("lyrics")
