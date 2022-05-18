@@ -17,7 +17,7 @@ async function seed() {
     [re:www.megalobiz.com/lrc/maker]
     [ve:v1.2.3]
     [00:14.99]I'm doing good, I'm on some new shit
-    [00:18.74]Been saying "Yes" instead of "No"
+    [00:18.74]Been saying Yes instead of No
     [00:22.24]I thought I saw you at the bus stop, I didn't though
     [00:28.74]I hit the ground running each night
     [00:32.23]I hit the Sunday matinee
