@@ -13,14 +13,18 @@ async function create(songData: SongDataSchema) {
     throw errors.badRequest("Artist does not exit");
   }
 
-  const youtubeLink = await songRepository.getByLink(songData.youtubeLink);
+  const song = await songRepository.getByLink(songData.youtubeLink);
 
-  if (youtubeLink) throw errors.conflictError("Song is already registered");
+  if (song) throw errors.conflictError("Song is already registered");
+
+  const videoId = youtubeParser(songData.youtubeLink);
+  const cover = `http://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
 
   const createSongData: CreateSongData = {
     artistId: songData.artistId,
     name: songData.name,
     youtubeLink: songData.youtubeLink,
+    cover,
   };
 
   const createdSong = await songRepository.createOne(createSongData);
@@ -32,12 +36,21 @@ async function getById(songId: number) {
   const song = await songRepository.getById(songId);
 
   if (!song) throw errors.notFoundError("Song does not exist");
-  
-  const mapped = song.lyrics.map(lyric => ({...lyric, text: lyric.text.split(" ")}));
-  return {...song, lyrics: mapped }
+
+  const mapped = song.lyrics.map((lyric) => ({
+    ...lyric,
+    text: lyric.text.split(" "),
+  }));
+  return { ...song, lyrics: mapped };
 }
 
 export default {
   create,
-  getById
+  getById,
 };
+
+function youtubeParser(url: string){
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match&&match[7].length==11)? match[7] : false;
+}

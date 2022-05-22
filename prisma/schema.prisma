@@ -23,6 +23,7 @@ model Song {
   id          Int      @unique @default(autoincrement())
   name        String
   youtubeLink String   @unique
+  cover       String   @default("")
   artist      Artist   @relation(fields: [artistId], references: [id])
   artistId    Int
   createdAt   DateTime @default(now())
@@ -33,13 +34,13 @@ model Song {
 }
 
 model Lyric {
-  id      Int      @unique @default(autoincrement())
-  song    Song     @relation(fields: [songId], references: [id])
-  songId  Int
-  text    String
+  id        Int    @unique @default(autoincrement())
+  song      Song   @relation(fields: [songId], references: [id])
+  songId    Int
+  text      String
   startTime Float
-  endTime Float?
-  part    Int
+  endTime   Float?
+  part      Int
 
   @@map("lyrics")
 }
