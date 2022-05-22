@@ -5,7 +5,8 @@ import songSchema from "../schemas/songSchema.js";
 
 const songRouter = Router();
 
-songRouter.post("/", validateSchema(songSchema), songController.create);
+songRouter.get("/", songController.getAll);
 songRouter.get("/:songId", songController.getById);
+songRouter.post("/", validateSchema(songSchema), songController.create);
 
 export default songRouter;

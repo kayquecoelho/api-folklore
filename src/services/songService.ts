@@ -1,8 +1,6 @@
 import errors from "../errors/index.js";
 import artistRepository from "../repositories/artistRepository.js";
-import songRepository, {
-  CreateSongData,
-} from "../repositories/songRepository.js";
+import songRepository, { CreateSongData } from "../repositories/songRepository.js";
 import { SongDataSchema } from "../schemas/songSchema.js";
 import lyricService from "./lyricService.js";
 
@@ -25,11 +23,19 @@ async function create(songData: SongDataSchema) {
     name: songData.name,
     youtubeLink: songData.youtubeLink,
     cover,
+    viewsCount: 0,
   };
 
   const createdSong = await songRepository.createOne(createSongData);
 
   await lyricService.processLyrics(songData.lrcLyric, createdSong.id);
+}
+
+function youtubeParser(url: string) {
+  const regExp =
+    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[7].length == 11 ? match[7] : false;
 }
 
 async function getById(songId: number) {
@@ -44,13 +50,13 @@ async function getById(songId: number) {
   return { ...song, lyrics: mapped };
 }
 
+async function getAll() {
+  const songs = await songRepository.getAll();
+
+  return songs;
+}
 export default {
   create,
   getById,
+  getAll,
 };
-
-function youtubeParser(url: string){
-  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-  const match = url.match(regExp);
-  return (match&&match[7].length==11)? match[7] : false;
-}

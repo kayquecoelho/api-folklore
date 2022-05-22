@@ -27,6 +27,7 @@ model Song {
   artist      Artist   @relation(fields: [artistId], references: [id])
   artistId    Int
   createdAt   DateTime @default(now())
+  viewsCount  Int      @default(0)
 
   lyrics Lyric[]
 

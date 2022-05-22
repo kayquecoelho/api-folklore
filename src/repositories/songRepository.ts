@@ -3,6 +3,18 @@ import prisma from "../database.js";
 
 export type CreateSongData = Omit<Song, "id" | "createdAt">;
 
+async function getAll() {
+  const songs = await prisma.song.findMany({
+    include: {
+      artist: true,
+    },
+    orderBy: {
+      viewsCount: 'desc'
+    }
+  });
+  return songs;
+}
+
 async function getByLink(youtubeLink: string) {
   const song = await prisma.song.findUnique({
     where: { youtubeLink },
@@ -38,5 +50,6 @@ async function getById(songId: number) {
 export default {
   getByLink,
   createOne,
-  getById
+  getById, 
+  getAll
 };

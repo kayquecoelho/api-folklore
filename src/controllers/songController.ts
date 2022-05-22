@@ -6,6 +6,12 @@ async function create(req: Request, res: Response) {
   res.sendStatus(201);
 }
 
+async function getAll(req: Request, res: Response) {
+  const songs = await songService.getAll();
+  
+  res.send(songs);
+}
+
 async function getById(req: Request, res: Response) {
   const songId = +req.params.songId;
 
@@ -18,5 +24,6 @@ async function getById(req: Request, res: Response) {
 
 export default { 
   create,
-  getById
+  getById,
+  getAll
 }
