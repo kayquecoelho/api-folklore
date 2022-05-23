@@ -47,9 +47,23 @@ async function getById(songId: number) {
   return song;
 }
 
+async function incrementViews(songId: number) {
+  return prisma.song.update({
+    where: {
+      id: songId
+    },
+    data: {
+      viewsCount: {
+        increment: 1
+      }
+    }
+  });
+}
+
 export default {
   getByLink,
   createOne,
   getById, 
-  getAll
+  getAll,
+  incrementViews
 };

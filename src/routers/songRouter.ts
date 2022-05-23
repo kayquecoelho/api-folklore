@@ -8,5 +8,6 @@ const songRouter = Router();
 songRouter.get("/", songController.getAll);
 songRouter.get("/:songId", songController.getById);
 songRouter.post("/", validateSchema(songSchema), songController.create);
+songRouter.post("/:songId/view", songController.incrementViews);
 
 export default songRouter;

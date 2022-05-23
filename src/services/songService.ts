@@ -39,14 +39,13 @@ function youtubeParser(url: string) {
 }
 
 async function getById(songId: number) {
-  const song = await songRepository.getById(songId);
-
-  if (!song) throw errors.notFoundError("Song does not exist");
+  const song = await ensureSongExists(songId);
 
   const mapped = song.lyrics.map((lyric) => ({
     ...lyric,
     text: lyric.text.split(" "),
   }));
+
   return { ...song, lyrics: mapped };
 }
 
@@ -55,8 +54,24 @@ async function getAll() {
 
   return songs;
 }
+
+async function incrementViews(songId: number) {
+  const song = await ensureSongExists(songId);
+
+  await songRepository.incrementViews(song.id);
+}
+
+async function ensureSongExists(songId: number) {
+  const song = await songRepository.getById(songId);
+  
+  if (!song) throw errors.notFoundError("Song does not exist");
+
+  return song;
+}
+
 export default {
   create,
   getById,
   getAll,
+  incrementViews
 };

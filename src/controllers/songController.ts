@@ -22,8 +22,19 @@ async function getById(req: Request, res: Response) {
   res.send(song);
 }
 
+async function incrementViews(req: Request, res: Response) {
+  const songId = +req.params.songId;
+
+  if (isNaN(songId)) return res.sendStatus(400);
+
+  await songService.incrementViews(songId);
+  
+  res.sendStatus(200);
+}
+
 export default { 
   create,
   getById,
-  getAll
+  getAll,
+  incrementViews
 }
