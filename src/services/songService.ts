@@ -56,7 +56,9 @@ async function getAll() {
 }
 
 async function incrementViews(songId: number) {
-  const song = await ensureSongExists(songId);
+  const song = await songRepository.getById(songId);
+  
+  if (!song) throw errors.badRequest("Song doesn't exist!");
 
   await songRepository.incrementViews(song.id);
 }
