@@ -172,8 +172,6 @@ Esse projeto é uma API desenvolvida para o [Folklore](https://github.com/tieska
 
 As seguintes tecnologias foram utilizadas para o desenvolvimento do projeto:
 
-## Technologies
-
 <div style="display: flex; gap: 10px;" >
   <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
