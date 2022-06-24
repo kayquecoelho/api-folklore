@@ -168,6 +168,26 @@ Esse projeto é uma API desenvolvida para o [Folklore](https://github.com/tieska
 </div>
 
 
+# Tecnologias
+
+As seguintes tecnologias foram utilizadas para o desenvolvimento do projeto:
+
+## Technologies
+
+<div style="display: flex; gap: 10px;" >
+  <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
+  </a>
+  <a href="https://www.prisma.io/" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white" alt="prisma" />
+  </a>
+  <a href="https://www.postgresql.org" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />
+  </a>
+  <a href="https://nodejs.org" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" />
+  </a>
+</div>
 # Requisitos
 
 ### [npm](https://www.npmjs.com/)
@@ -175,7 +195,7 @@ Esse projeto é uma API desenvolvida para o [Folklore](https://github.com/tieska
 <details>
     <summary>install npm</summary>
   </br>
-  
+
 ```bash
 wget -qO- <https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh> | bash
 ## Or this command
