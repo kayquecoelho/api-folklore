@@ -11,9 +11,12 @@ export default function errorHandler(
     if (error.type === "bad_request") {
       return res.status(400).send(error.message);
     }
+    else if (error.type === 'not_found') {
+      return res.status(404).send(error.message);
+    }
     else if (error.type === "conflict") {
       return res.status(409).send(error.message);
-    }
+    } 
   }
   console.log(error);
   res.sendStatus(500);
