@@ -29,6 +29,8 @@ async function create(songData: SongDataSchema) {
   const createdSong = await songRepository.createOne(createSongData);
 
   await lyricService.processLyrics(songData.lrcLyric, createdSong.id);
+
+  return createdSong;
 }
 
 function youtubeParser(url: string) {
@@ -65,7 +67,7 @@ async function incrementViews(songId: number) {
 
 async function ensureSongExists(songId: number) {
   const song = await songRepository.getById(songId);
-  
+ 
   if (!song) throw errors.notFoundError("Song does not exist");
 
   return song;

@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc", 
     "start": "node dist/src/server.js",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "test": "NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test jest -i"
   },
   "prisma": {
     "seed": "npx ts-node prisma/seed.ts"
