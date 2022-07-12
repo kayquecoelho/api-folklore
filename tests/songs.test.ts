@@ -1,7 +1,11 @@
 import { Lyric } from "@prisma/client";
 import supertest from "supertest";
 import app from "../src/app";
+import prisma from "../src/database";
+import { SongDataSchema } from "../src/schemas/songSchema";
+import createArtist from "./factories/create-artist";
 import createSong from "./factories/create-song";
+import generateSongData from "./factories/generate-song-data";
 import cleanDatabase from "./helpers/clean-database";
 import seedDatabase from "./helpers/seed-database";
 
@@ -61,7 +65,7 @@ describe("SONGS TEST", () => {
       };
 
       const response = await server.get(`/songs/${song.id}`);
-      
+
       expect(response.body).toMatchObject(song);
       expect(response.body).toHaveProperty("lyrics");
       expect(response.body.lyrics).toBeInstanceOf(Array);
@@ -72,6 +76,52 @@ describe("SONGS TEST", () => {
   });
 
   describe("POST/songs", () => {
+    beforeEach(cleanDatabase);
 
+    it("should respond with status 422 when sending a invalid body", async () => {
+      const song = {};
+
+      const response = await server.post("/songs").send(song);
+
+      expect(response.status).toEqual(422);
+    });
+
+    describe("when body is valid", () => {
+      beforeEach(cleanDatabase);
+
+      it("should respond with status 201 and return createdSong", async () => {
+        const artist = await createArtist();
+        const song: SongDataSchema = generateSongData(artist);
+
+        const response = await server.post("/songs").send(song);
+
+        const createdSong = await prisma.song.findUnique({
+          where: { youtubeLink: song.youtubeLink },
+        });
+        
+        
+        expect(response.status).toEqual(201);
+        expect(createdSong).toBeDefined();
+        expect(response.body).toMatchObject({
+          id: expect.any(Number),
+          name: expect.any(String),
+          artistId: expect.any(Number),
+          cover: expect.any(String),
+          youtubeLink: expect.any(String),
+          viewsCount: expect.any(Number),
+          createdAt: expect.any(String)
+        });
+      });
+
+      it("should respond with status 409 when creating two songs with the same youtubeLink", async () => {
+        const artist = await createArtist();
+        const song: SongDataSchema = generateSongData(artist);
+
+        await server.post("/songs").send(song);
+        const response = await server.post("/songs").send(song);
+
+        expect(response.status).toEqual(409);
+      });
+    });
   });
 });
