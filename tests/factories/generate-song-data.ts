@@ -1,9 +1,9 @@
-import { Artist } from "@prisma/client";
+import { Artist } from '@prisma/client';
 
 export default function generateSongData(artist: Artist) {
-   const songData = {
-    name: "the 1",
-    youtubeLink: "https://www.youtube.com/watch?v=KsZ6tROaVOQ",
+  const songData = {
+    name: 'the 1',
+    youtubeLink: 'https://www.youtube.com/watch?v=KsZ6tROaVOQ',
     artistId: artist.id,
     lrcLyric: `[ti:The 1 Taylor Swift]
     [length:03:31.30]

@@ -1,5 +1,4 @@
-import prisma from "../../src/database"
-
+import prisma from '../../src/database';
 
 export default async function cleanDatabase() {
   await prisma.lyric.deleteMany();

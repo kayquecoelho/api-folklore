@@ -1,8 +1,7 @@
-import { Song } from "@prisma/client";
-import Joi, { ObjectSchema } from "joi";
+import { Song } from '@prisma/client';
+import Joi, { ObjectSchema } from 'joi';
 
-export interface SongDataSchema
-  extends Omit<Song, "id" | "viewsCount" | "createdAt" | 'cover'> {
+export interface SongDataSchema extends Omit<Song, 'id' | 'viewsCount' | 'createdAt' | 'cover'> {
   lrcLyric: string;
 }
 

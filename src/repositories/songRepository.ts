@@ -1,7 +1,7 @@
-import { Song } from "@prisma/client";
-import prisma from "../database.js";
+import { Song } from '@prisma/client';
+import prisma from '../database.js';
 
-export type CreateSongData = Omit<Song, "id" | "createdAt">;
+export type CreateSongData = Omit<Song, 'id' | 'createdAt'>;
 
 async function getAll() {
   const songs = await prisma.song.findMany({
@@ -9,8 +9,8 @@ async function getAll() {
       artist: true,
     },
     orderBy: {
-      viewsCount: 'desc'
-    }
+      viewsCount: 'desc',
+    },
   });
   return songs;
 }
@@ -25,7 +25,7 @@ async function getByLink(youtubeLink: string) {
 
 async function createOne(songData: CreateSongData) {
   const createdSong = await prisma.song.create({
-    data: songData
+    data: songData,
   });
   return createdSong;
 }
@@ -33,16 +33,16 @@ async function createOne(songData: CreateSongData) {
 async function getById(songId: number) {
   const song = await prisma.song.findUnique({
     where: {
-      id: songId
+      id: songId,
     },
     include: {
       artist: true,
       lyrics: {
         orderBy: {
-          part: "asc"
-        }
-      }
-    }
+          part: 'asc',
+        },
+      },
+    },
   });
   return song;
 }
@@ -50,20 +50,20 @@ async function getById(songId: number) {
 async function incrementViews(songId: number) {
   return prisma.song.update({
     where: {
-      id: songId
+      id: songId,
     },
     data: {
       viewsCount: {
-        increment: 1
-      }
-    }
+        increment: 1,
+      },
+    },
   });
 }
 
 export default {
   getByLink,
   createOne,
-  getById, 
+  getById,
   getAll,
-  incrementViews
+  incrementViews,
 };

@@ -1,5 +1,5 @@
-import { Lrc } from "lrc-kit";
-import lyricRepository from "../repositories/lyricRepository.js";
+import { Lrc } from 'lrc-kit';
+import lyricRepository from '../repositories/lyricRepository.js';
 
 async function processLyrics(lrcLyric: string, songId: number) {
   const timedLyrics = Lrc.parse(lrcLyric).lyrics;
