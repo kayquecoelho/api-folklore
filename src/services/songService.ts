@@ -5,35 +5,46 @@ import { SongDataSchema } from "../schemas/songSchema.js";
 import lyricService from "./lyricService.js";
 
 async function create(songData: SongDataSchema) {
-  const artist = await artistRepository.getById(songData.artistId);
+  const { artistId, name, youtubeLink, lrcLyric } = songData;
 
-  if (!artist) {
-    throw errors.badRequest("Artist does not exit");
-  }
+  await ensureArtistExist(artistId);
 
-  const song = await songRepository.getByLink(songData.youtubeLink);
+  await ensureSongIsNotRegistered(youtubeLink);
 
-  if (song) throw errors.conflictError("Song is already registered");
-
-  const videoId = youtubeParser(songData.youtubeLink);
+  const videoId = getVideoId(youtubeLink);
   const cover = `http://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
 
   const createSongData: CreateSongData = {
-    artistId: songData.artistId,
-    name: songData.name,
-    youtubeLink: songData.youtubeLink,
+    artistId,
+    name,
+    youtubeLink,
     cover,
     viewsCount: 0,
   };
 
   const createdSong = await songRepository.createOne(createSongData);
 
-  await lyricService.processLyrics(songData.lrcLyric, createdSong.id);
+  await lyricService.processLyrics(lrcLyric, createdSong.id);
 
   return createdSong;
 }
 
-function youtubeParser(url: string) {
+async function ensureSongIsNotRegistered(youtubeLink: string) {
+  const song = await songRepository.getByLink(youtubeLink);
+
+  if (song)
+    throw errors.conflictError("Song is already registered!");
+}
+
+async function ensureArtistExist(artistId: number) {
+  const artist = await artistRepository.getById(artistId);
+
+  if (!artist) {
+    throw errors.badRequest("Artist does not exit!");
+  }
+}
+
+function getVideoId(url: string) {
   const regExp =
     /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
   const match = url.match(regExp);
