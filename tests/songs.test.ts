@@ -32,4 +32,46 @@ describe("SONGS TEST", () => {
     });
   });
 
+  describe("GET/songs/:songId", () => {
+    it("should respond with status 400 given a non-numeric songId", async () => {
+      const songId = "the1";
+      const response = await server.get(`/songs/${songId}`);
+
+      expect(response.statusCode).toBe(400);
+    });
+
+    it("should respond with status 404 given inexistent songId", async () => {
+      const songId = 1;
+      const response = await server.get(`/songs/${songId}`);
+
+      expect(response.status).toEqual(404);
+      expect(response.text).toEqual("Song does not exist");
+    });
+
+    it("should respond with song data given a existent songId", async () => {
+      const song = await createSong();
+
+      const validLyrics: Lyric = {
+        id: expect.any(Number),
+        songId: expect.any(Number),
+        part: expect.any(Number),
+        endTime: expect.any(Number),
+        startTime: expect.any(Number),
+        text: expect.any(Array),
+      };
+
+      const response = await server.get(`/songs/${song.id}`);
+      
+      expect(response.body).toMatchObject(song);
+      expect(response.body).toHaveProperty("lyrics");
+      expect(response.body.lyrics).toBeInstanceOf(Array);
+      expect(response.body.lyrics[0]).toEqual(
+        expect.objectContaining(validLyrics)
+      );
+    });
+  });
+
+  describe("POST/songs", () => {
+
+  });
 });
