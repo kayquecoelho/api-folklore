@@ -121,4 +121,24 @@ describe('SONGS TEST', () => {
       });
     });
   });
+
+  describe('POST/songs/:songId/view', () => {
+    it('should return status 400 when song does not exist into database', async () => {
+      const response = await server.post(`/songs/${1}/view`);
+
+      expect(response.status).toEqual(400);
+      expect(response.text).toEqual("Song doesn't exist!");
+    });
+
+    it('should increase the viewsCount of a song when songId is valid and respond with status 200', async () => {
+      const song = await createSong();
+
+      const response = await server.post(`/songs/${song.id}/view`);
+
+      const incrementedSong = await prisma.song.findUnique({ where: { id: song.id } });
+
+      expect(response.status).toEqual(200);
+      expect(song.viewsCount + 1).toEqual(incrementedSong.viewsCount);
+    });
+  });
 });
